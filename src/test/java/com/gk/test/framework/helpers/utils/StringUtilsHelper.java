@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 public class StringUtilsHelper {
 
     public static List<String> findTheLongOrShortWord(String sentence, String longOrShortOperation) {
-        List<String> foundWords;
         String[] wordsInSentence = sentence.split(" ");
 
         if (longOrShortOperation.equals("LONG")) {

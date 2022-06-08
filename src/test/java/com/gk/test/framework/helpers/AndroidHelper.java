@@ -3,9 +3,7 @@ package com.gk.test.framework.helpers;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,18 +11,13 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class AndroidHelper extends EventFiringWebDriver {
+//unused
+public class AndroidHelper {
     private static final Logger LOG = LoggerFactory
             .getLogger(AndroidHelper.class);
     private static final String RUN_CONFIG_PROPERTIES = "/environment.properties";
-    private static AndroidDriver<WebElement> ANDROID_DRIVER = null;
-    private static final Thread CLOSE_THREAD = new Thread() {
-
-        @Override
-        public void run() {
-            ANDROID_DRIVER.quit();
-        }
-    };
+    private static AndroidDriver ANDROID_DRIVER;
+    private static final Thread CLOSE_THREAD = new Thread(() -> ANDROID_DRIVER.quit());
 
     static {
         Props.loadRunConfigProps(RUN_CONFIG_PROPERTIES);
@@ -33,14 +26,13 @@ public class AndroidHelper extends EventFiringWebDriver {
     }
 
     private AndroidHelper() {
-        super(ANDROID_DRIVER);
     }
 
 
-    private static AndroidDriver<WebElement> startAppiumDriver() {
+    private static AndroidDriver startAppiumDriver() {
         DesiredCapabilities capabilities = getAppiumDesiredCapabilities();
         try {
-            ANDROID_DRIVER = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+            ANDROID_DRIVER = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -61,16 +53,15 @@ public class AndroidHelper extends EventFiringWebDriver {
         return capabilities;
     }
 
-    public static AndroidDriver<WebElement> getAndroidWebDriver() {
+    public static AndroidDriver getAndroidWebDriver() {
         return ANDROID_DRIVER;
     }
 
-    @Override
     public void close() {
         if (Thread.currentThread() != CLOSE_THREAD) {
             throw new UnsupportedOperationException(
                     "You shouldn't close this WebDriver. It's shared and will close when the JVM exits.");
         }
-        super.close();
+        ANDROID_DRIVER.close();
     }
 }

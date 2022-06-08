@@ -1,19 +1,19 @@
 package com.gk.test.step_definitions.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gk.test.framework.helpers.ApiHelper;
 import com.gk.test.models.api.ItemModel;
 import com.gk.test.models.api.ResponseModel;
 import com.gk.test.services.Api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jayway.restassured.response.Response;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
-import io.cucumber.datatable.dependency.com.fasterxml.jackson.databind.ObjectMapper;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import io.restassured.response.Response;
 
 import java.util.List;
 
-import static com.jayway.restassured.path.json.JsonPath.from;
+import static io.restassured.path.json.JsonPath.from;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -90,19 +90,21 @@ public class ApiSteps extends ApiHelper {
     }
 
     @When("^I delete an Item \"([^\"]*)\"$")
-    public void I_delete_an_Item(String uniqueId) throws Throwable {
+    public void I_delete_an_Item(String uniqueId) {
         response = Api.deleteItem(uniqueId);
     }
 
 
     @Then("^the Item is \"([^\"]*)\"$")
-    public void the_Item_is(String result) throws Throwable {
-        if (result.equals("created")) {
-            assertThat(response.getStatusCode()).isEqualTo(201);
-        } else if (result.equals("updated")) {
-            assertThat(response.getStatusCode()).isEqualTo(200);
-        } else if (result.equals("deleted")) {
-            assertThat(response.getStatusCode()).isEqualTo(200);
+    public void the_Item_is(String result) {
+        switch (result) {
+            case "created":
+                assertThat(response.getStatusCode()).isEqualTo(201);
+                break;
+            case "updated":
+            case "deleted":
+                assertThat(response.getStatusCode()).isEqualTo(200);
+                break;
         }
 
     }

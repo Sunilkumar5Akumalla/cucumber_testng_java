@@ -1,22 +1,19 @@
 package com.gk.test.step_definitions;
 
 import com.gk.test.models.api.ItemModel;
-import cucumber.api.TypeRegistry;
-import cucumber.api.TypeRegistryConfigurer;
+import io.cucumber.core.api.TypeRegistry;
 import io.cucumber.datatable.DataTableType;
 import io.cucumber.datatable.TableEntryTransformer;
 
 import java.util.Locale;
 import java.util.Map;
 
-public class TypeRegistryConfiguration implements TypeRegistryConfigurer {
+public class TypeRegistryConfiguration {
 
-    @Override
     public Locale locale() {
         return Locale.ENGLISH;
     }
 
-    @Override
     public void configureTypeRegistry(TypeRegistry typeRegistry) {
         typeRegistry.defineDataTableType(new DataTableType(ItemModel.class,
                 new TableEntryTransformer<ItemModel>() {

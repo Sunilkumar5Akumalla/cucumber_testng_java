@@ -12,14 +12,12 @@ import static java.lang.System.out;
 
 public class Props {
     private static final Logger LOG = LoggerFactory.getLogger(Props.class);
-    private static Properties environmentProps;
     private static Properties properties;
 
 
     /**
      * Gets the key from messages.properties for a Site
      *
-     * @param key
      **/
     public static String getMessage(String key) {
 
@@ -34,7 +32,6 @@ public class Props {
     /**
      * Gets the key from Config.properties related to chosen profile
      *
-     * @param key
      **/
 
     public static String getProp(String key) {
@@ -48,7 +45,7 @@ public class Props {
 
 
     public static void loadRunConfigProps(String configPropertyFileLocation) {
-        environmentProps = new Properties();
+        Properties environmentProps = new Properties();
         try (InputStream inputStream = Props.class.getResourceAsStream(configPropertyFileLocation)) {
             environmentProps.load(inputStream);
             environmentProps.list(out);
@@ -57,7 +54,7 @@ public class Props {
         }
         properties = new Properties();
         try (InputStream inputStream = Props.class.getResourceAsStream(environmentProps.getProperty("profile.path"))) {
-            LOG.info("Profile Path" + environmentProps.getProperty("profile.path").toString());
+            LOG.info("Profile Path" + environmentProps.getProperty("profile.path"));
             properties.load(inputStream);
             properties.list(out);
         } catch (IOException e) {

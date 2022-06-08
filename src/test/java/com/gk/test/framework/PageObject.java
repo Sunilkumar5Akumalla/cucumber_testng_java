@@ -10,8 +10,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
 import java.util.List;
 
+//unused
 public abstract class PageObject {
     private static final long DRIVER_WAIT_TIME = 10;
     private static final Logger LOG = LoggerFactory.getLogger(PageObject.class);
@@ -24,7 +26,7 @@ public abstract class PageObject {
 
     protected PageObject() {
         this.webDriver = WebDriverHelper.getWebDriver();
-        this.wait = new WebDriverWait(webDriver, DRIVER_WAIT_TIME);
+        this.wait = new WebDriverWait(webDriver, Duration.ofSeconds(DRIVER_WAIT_TIME));
     }
 
     /**
@@ -48,7 +50,7 @@ public abstract class PageObject {
      * @return true when the title matches, false otherwise
      */
     public boolean checkPageTitle(String title) {
-        return new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME).until(ExpectedConditions.titleIs(title));
+        return new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME)).until(ExpectedConditions.titleIs(title));
     }
 
     /**
@@ -59,7 +61,7 @@ public abstract class PageObject {
      * @return true when the title matches, false otherwise
      */
     public boolean checkPageTitleContains(String title) {
-        return new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME).until(ExpectedConditions.titleContains(title));
+        return new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME)).until(ExpectedConditions.titleContains(title));
     }
 
     /**
@@ -69,7 +71,7 @@ public abstract class PageObject {
      * @return <code>true</code> when the URL is what it should be
      */
     public boolean checkPageUrlToBe(String url) {
-        return new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME).until(ExpectedConditions.urlToBe(url));
+        return new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME)).until(ExpectedConditions.urlToBe(url));
     }
 
     /**
@@ -79,7 +81,7 @@ public abstract class PageObject {
      * @return <code>true</code> when the URL contains the text
      */
     public boolean checkPageUrlContains(String fraction) {
-        return new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME).until(ExpectedConditions.urlContains(fraction));
+        return new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME)).until(ExpectedConditions.urlContains(fraction));
     }
 
     /**
@@ -90,7 +92,7 @@ public abstract class PageObject {
      */
 
     public boolean checkPageUrlMatches(String regex) {
-        return new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME).until(ExpectedConditions.urlMatches(regex));
+        return new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME)).until(ExpectedConditions.urlMatches(regex));
     }
 
     /**
@@ -111,7 +113,7 @@ public abstract class PageObject {
 
     public WebElement waitForExpectedElement(final By by, long waitTimeInSeconds) {
         try {
-            WebDriverWait wait = new WebDriverWait(getWebDriver(), waitTimeInSeconds);
+            WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(waitTimeInSeconds));
             return wait.until(visibilityOfElementLocated(by));
         } catch (NoSuchElementException e) {
             LOG.info(e.getMessage());
@@ -143,7 +145,7 @@ public abstract class PageObject {
      * @return true once the element contains the given text
      */
     public boolean textToBePresentInElement(WebElement element, String text) {
-        return new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME).until(ExpectedConditions.textToBePresentInElement(element, text));
+        return new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME)).until(ExpectedConditions.textToBePresentInElement(element, text));
     }
 
 
@@ -156,7 +158,7 @@ public abstract class PageObject {
      * @return true once the first element located by locator contains the given text
      */
     public boolean textToBePresentInElementLocated(final By by, final String text) {
-        return new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME).until(ExpectedConditions.textToBePresentInElementLocated(by, text));
+        return new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME)).until(ExpectedConditions.textToBePresentInElementLocated(by, text));
     }
 
 
@@ -169,7 +171,7 @@ public abstract class PageObject {
      * @return true once the element's value attribute contains the given text
      */
     public boolean textToBePresentInElementValue(final WebElement element, final String text) {
-        return new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME).until(ExpectedConditions.textToBePresentInElementValue(element, text));
+        return new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME)).until(ExpectedConditions.textToBePresentInElementValue(element, text));
     }
 
 
@@ -183,7 +185,7 @@ public abstract class PageObject {
      * the given text
      */
     public boolean textToBePresentInElementValue(final By by, final String text) {
-        return new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME).until(ExpectedConditions.textToBePresentInElementValue(by, text));
+        return new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME)).until(ExpectedConditions.textToBePresentInElementValue(by, text));
     }
 
 
@@ -195,7 +197,7 @@ public abstract class PageObject {
      * @param frameLocator used to find the frame (id or name)
      */
     public WebDriver frameToBeAvailableAndSwitchToIt(final String frameLocator) {
-        return new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameLocator));
+        return new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME)).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameLocator));
     }
 
 
@@ -207,7 +209,7 @@ public abstract class PageObject {
      * @param by used to find the frame
      */
     public WebDriver frameToBeAvailableAndSwitchToIt(final By by) {
-        return new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(by));
+        return new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME)).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(by));
     }
 
 
@@ -218,7 +220,7 @@ public abstract class PageObject {
      * @param by used to find the element
      */
     public boolean invisibilityOfElementLocated(By by) {
-        return (new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME)).until(ExpectedConditions.invisibilityOfElementLocated(by));
+        return (new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME))).until(ExpectedConditions.invisibilityOfElementLocated(by));
     }
 
     /**
@@ -229,7 +231,7 @@ public abstract class PageObject {
      * @param text of the element
      */
     public boolean invisibilityOfElementWithText(final By by, final String text) {
-        return (new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME)).until(ExpectedConditions.invisibilityOfElementWithText(by, text));
+        return (new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME))).until(ExpectedConditions.invisibilityOfElementWithText(by, text));
     }
 
 
@@ -241,7 +243,7 @@ public abstract class PageObject {
      * @return the WebElement once it is located and clickable (visible and enabled)
      */
     public WebElement elementToBeClickable(By by) {
-        return (new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME)).until(ExpectedConditions.elementToBeClickable(by));
+        return (new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME))).until(ExpectedConditions.elementToBeClickable(by));
     }
 
 
@@ -254,7 +256,7 @@ public abstract class PageObject {
      */
 
     public WebElement elementToBeClickable(final WebElement element) {
-        return (new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME)).until(ExpectedConditions.elementToBeClickable(element));
+        return (new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME))).until(ExpectedConditions.elementToBeClickable(element));
     }
 
 
@@ -266,28 +268,28 @@ public abstract class PageObject {
      * otherwise.
      */
     public boolean stalenessOf(final WebElement element) {
-        return (new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME)).until(ExpectedConditions.stalenessOf(element));
+        return (new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME))).until(ExpectedConditions.stalenessOf(element));
     }
 
     /**
      * An expectation for checking if the given element is selected.
      */
     public boolean elementToBeSelected(final By by) {
-        return (new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME)).until(ExpectedConditions.elementToBeSelected(by));
+        return (new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME))).until(ExpectedConditions.elementToBeSelected(by));
     }
 
     /**
      * An expectation for checking if the given element is selected.
      */
     public boolean elementToBeSelected(final WebElement element) {
-        return (new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME)).until(ExpectedConditions.elementToBeSelected(element));
+        return (new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME))).until(ExpectedConditions.elementToBeSelected(element));
     }
 
     /**
      * An expectation for checking if the given element is selected.
      */
     public boolean elementSelectionStateToBe(final WebElement element, final boolean selected) {
-        return (new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME)).until(ExpectedConditions.elementSelectionStateToBe(element, selected));
+        return (new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME))).until(ExpectedConditions.elementSelectionStateToBe(element, selected));
     }
 
     /**
@@ -295,11 +297,11 @@ public abstract class PageObject {
      */
     public boolean elementSelectionStateToBe(final By by,
                                              final boolean selected) {
-        return (new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME)).until(ExpectedConditions.elementSelectionStateToBe(by, selected));
+        return (new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME))).until(ExpectedConditions.elementSelectionStateToBe(by, selected));
     }
 
     public void waitForAlert() {
-        (new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME)).until(ExpectedConditions.alertIsPresent());
+        (new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME))).until(ExpectedConditions.alertIsPresent());
     }
 
     /**
@@ -311,7 +313,7 @@ public abstract class PageObject {
      * @return the list of WebElements once they are located
      */
     public List<WebElement> visibilityOfAllElementsLocatedBy(final By by) {
-        return (new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME)).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(by));
+        return (new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME))).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(by));
     }
 
 
@@ -324,7 +326,7 @@ public abstract class PageObject {
      * @return the list of WebElements once they are located
      */
     public List<WebElement> visibilityOfAllElements(final List<WebElement> elements) {
-        return (new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME)).until(ExpectedConditions.visibilityOfAllElements(elements));
+        return (new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME))).until(ExpectedConditions.visibilityOfAllElements(elements));
     }
 
 
@@ -336,7 +338,7 @@ public abstract class PageObject {
      * @return the list of WebElements once they are located
      */
     public List<WebElement> presenceOfAllElementsLocatedBy(final By by) {
-        return (new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME)).until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
+        return (new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME))).until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
     }
 
     /**
@@ -349,7 +351,7 @@ public abstract class PageObject {
      */
 
     public WebElement visibilityOf(final WebElement element) {
-        return (new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME)).until(ExpectedConditions.visibilityOf(element));
+        return (new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME))).until(ExpectedConditions.visibilityOf(element));
     }
 
 
@@ -362,7 +364,7 @@ public abstract class PageObject {
      */
     public boolean isElementPresent(final By by) {
         try {
-            new WebDriverWait(getWebDriver(), DRIVER_WAIT_TIME).until(ExpectedConditions.presenceOfElementLocated(by));
+            new WebDriverWait(getWebDriver(), Duration.ofSeconds(DRIVER_WAIT_TIME)).until(ExpectedConditions.presenceOfElementLocated(by));
 
         } catch (TimeoutException exception) {
             LOG.info(exception.getMessage());

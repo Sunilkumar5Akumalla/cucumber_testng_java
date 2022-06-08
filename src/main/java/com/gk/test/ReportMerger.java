@@ -28,7 +28,6 @@ class ReportMerger {
      * Merge all reports together into master report in given reportDirectory
      *
      * @param reportDirectory report directory
-     * @throws Exception
      */
     private void mergeReports(File reportDirectory) throws IOException {
         //merging js reports for parallel tests
@@ -68,7 +67,7 @@ class ReportMerger {
                     //otherwise merge this report into existing master report
                     if ("js".equals(format)) {
                         mergeJsFiles(mergedReport, report);
-                    } else if ("json".equals(format)) {
+                    } else {
                         mergeJsonFiles(mergedReport, report);
                     }
                 }
@@ -80,7 +79,6 @@ class ReportMerger {
      * To get failed scenarios and write it to rerun file in rerun folder
      *
      * @param reportDirectory reportDirectory
-     * @throws Exception
      */
     private void getListOfFailedScenarios(File reportDirectory) throws IOException {
         String rerunReportFileName = "rerun.txt";
@@ -150,7 +148,7 @@ class ReportMerger {
         String fileAsString = FileUtils.readFileToString(reportFile);
         for (File image : embeddedImages) {
             String curImageName = image.getName();
-            String uniqueImageName = UUID.randomUUID().toString() + "." + reportImageExtension;
+            String uniqueImageName = UUID.randomUUID() + "." + reportImageExtension;
             boolean imageRenameFlag = image.renameTo(new File(reportDirectory, uniqueImageName));
             if (imageRenameFlag) {
                 fileAsString = fileAsString.replace(curImageName, uniqueImageName);

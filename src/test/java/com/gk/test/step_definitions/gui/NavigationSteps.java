@@ -2,7 +2,7 @@ package com.gk.test.step_definitions.gui;
 
 
 import com.gk.test.framework.helpers.UrlBuilder;
-import cucumber.api.java.en.Given;
+import io.cucumber.java.en.Given;
 
 
 public class NavigationSteps {

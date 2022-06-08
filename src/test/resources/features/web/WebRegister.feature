@@ -25,10 +25,7 @@ Feature: REGISTER:- As a new customer I would like to register so I can : -
     And i click on Sign In button on the Login Page
     Then i can see the validation message "<validationMessage>"
 
-
-
     Examples:
       | loginId | password | validationMessage      |
       | invalid | invalid  | error.incorrectDetails |
       |         |          | error.enterLogin       |
-

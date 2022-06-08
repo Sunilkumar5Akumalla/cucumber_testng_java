@@ -1,6 +1,7 @@
 package com.gk.test.framework.helpers;
 
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -15,7 +16,6 @@ import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,17 +23,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 
-public abstract class WebDriverHelper extends EventFiringWebDriver {
+public abstract class WebDriverHelper {
     private static final Logger LOG = LoggerFactory
             .getLogger(WebDriverHelper.class);
     private static RemoteWebDriver REAL_DRIVER = null;
-    private static final Thread CLOSE_THREAD = new Thread() {
-
-        @Override
-        public void run() {
-            REAL_DRIVER.quit();
-        }
-    };
+    private static final Thread CLOSE_THREAD = new Thread(() -> REAL_DRIVER.quit());
     private static String BROWSER;
     private static String PLATFORM;
     private static String DRIVER_PATH;
@@ -101,7 +95,7 @@ public abstract class WebDriverHelper extends EventFiringWebDriver {
     }
 
     private WebDriverHelper() {
-        super(REAL_DRIVER);
+
     }
 
     private static String getDriverPath() {
@@ -111,9 +105,10 @@ public abstract class WebDriverHelper extends EventFiringWebDriver {
 
     private static void startIEDriver() {
         DesiredCapabilities capabilities = getInternetExploreDesiredCapabilities();
-        if (SELENIUM_HOST == null || SELENIUM_HOST.isEmpty())
-            REAL_DRIVER = new InternetExplorerDriver(capabilities);
-        else {
+        if (SELENIUM_HOST == null || SELENIUM_HOST.isEmpty()) {
+            WebDriverManager.iedriver().capabilities(capabilities).setup();
+            REAL_DRIVER = new InternetExplorerDriver();
+        } else {
             try {
                 REAL_DRIVER = getRemoteWebDriver(capabilities);
             } catch (MalformedURLException e) {
@@ -125,9 +120,10 @@ public abstract class WebDriverHelper extends EventFiringWebDriver {
 
     private static void startFireFoxDriver() {
         DesiredCapabilities capabilities = getFireFoxDesiredCapabilities();
-        if (SELENIUM_HOST == null || SELENIUM_HOST.isEmpty())
+        if (SELENIUM_HOST == null || SELENIUM_HOST.isEmpty()) {
+            WebDriverManager.firefoxdriver().capabilities(capabilities).setup();
             REAL_DRIVER = new FirefoxDriver();
-        else {
+        } else {
             try {
                 REAL_DRIVER = getRemoteWebDriver(capabilities);
             } catch (MalformedURLException e) {
@@ -139,9 +135,9 @@ public abstract class WebDriverHelper extends EventFiringWebDriver {
 
     private static void startPhantomJsDriver() {
         DesiredCapabilities capabilities = getPhantomJsCapabilities();
-        if (SELENIUM_HOST == null || SELENIUM_HOST.isEmpty())
+        if (SELENIUM_HOST == null || SELENIUM_HOST.isEmpty()) {
             REAL_DRIVER = new PhantomJSDriver(capabilities);
-        else {
+        } else {
             try {
                 REAL_DRIVER = getRemoteWebDriver(capabilities);
             } catch (MalformedURLException e) {
@@ -174,10 +170,10 @@ public abstract class WebDriverHelper extends EventFiringWebDriver {
     private static WebDriver startChromeDriver() {
         DesiredCapabilities capabilities = getChromeDesiredCapabilities();
 
-        if (SELENIUM_HOST == null || SELENIUM_HOST.isEmpty())
-            REAL_DRIVER = new ChromeDriver(
-                    ChromeDriverService.createDefaultService(), capabilities);
-        else {
+        if (SELENIUM_HOST == null || SELENIUM_HOST.isEmpty()) {
+            WebDriverManager.chromedriver().capabilities(capabilities).setup();
+            REAL_DRIVER = new ChromeDriver();
+        } else {
             try {
                 REAL_DRIVER = getRemoteWebDriver(capabilities);
             } catch (MalformedURLException e) {
@@ -192,7 +188,7 @@ public abstract class WebDriverHelper extends EventFiringWebDriver {
 
         LoggingPreferences logs = new LoggingPreferences();
         logs.enable(LogType.DRIVER, Level.OFF);
-        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+        DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(CapabilityType.LOGGING_PREFS, logs);
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--disable-extensions");
@@ -217,8 +213,7 @@ public abstract class WebDriverHelper extends EventFiringWebDriver {
     private static DesiredCapabilities getInternetExploreDesiredCapabilities() {
         LoggingPreferences logs = new LoggingPreferences();
         logs.enable(LogType.DRIVER, Level.OFF);
-        DesiredCapabilities capabilities = DesiredCapabilities
-                .internetExplorer();
+        DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(CapabilityType.LOGGING_PREFS, logs);
         capabilities
                 .setCapability(
@@ -231,7 +226,7 @@ public abstract class WebDriverHelper extends EventFiringWebDriver {
     private static DesiredCapabilities getPhantomJsCapabilities() {
         LoggingPreferences logs = new LoggingPreferences();
         logs.enable(LogType.DRIVER, Level.OFF);
-        DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
+        DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(CapabilityType.LOGGING_PREFS, logs);
         capabilities
                 .setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, getDriverPath());
@@ -272,12 +267,11 @@ public abstract class WebDriverHelper extends EventFiringWebDriver {
         getWebDriver().manage().window().setSize(dimension);
     }
 
-    @Override
     public void close() {
         if (Thread.currentThread() != CLOSE_THREAD) {
             throw new UnsupportedOperationException(
                     "You shouldn't close this WebDriver. It's shared and will close when the JVM exits.");
         }
-        super.close();
+        this.close();
     }
 }

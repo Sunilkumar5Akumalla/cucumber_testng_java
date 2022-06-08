@@ -2,8 +2,8 @@ package com.gk.test.step_definitions.mobile;
 
 import com.gk.test.framework.helpers.utils.RandomGenerator;
 import com.gk.test.page_objects.mobile.MobileContactsPage;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.When;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
 
 public class MobileSteps {
 

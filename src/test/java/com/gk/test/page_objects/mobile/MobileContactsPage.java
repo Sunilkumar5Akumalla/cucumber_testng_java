@@ -1,8 +1,8 @@
 package com.gk.test.page_objects.mobile;
 
 import com.gk.test.framework.AndroidObject;
-import io.appium.java_client.android.AndroidElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
@@ -17,11 +17,11 @@ public class MobileContactsPage extends AndroidObject {
         getAndroidDriver().findElement(addContactButton).click();
     }
 
-    public List<AndroidElement> getContactFormFields() {
-        return getAndroidDriver().findElementsByClassName(contactFormFields);
+    public List<WebElement> getContactFormFields() {
+        return getAndroidDriver().findElements(new By.ByClassName(contactFormFields));
     }
 
     public void saveContact() {
-        getAndroidDriver().findElementByName(saveButton).click();
+        getAndroidDriver().findElement(By.name(saveButton)).click();
     }
 }

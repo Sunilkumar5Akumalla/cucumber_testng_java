@@ -1,7 +1,7 @@
 package com.gk.test.framework.helpers.screenshot_helper;
 
-import cucumber.api.Scenario;
-import cucumber.api.java.After;
+import io.cucumber.java.After;
+import io.cucumber.java.Scenario;
 import lombok.Getter;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -23,16 +23,14 @@ public class ScreenshotHook {
             try {
                 Map<String, Object> screenShots = ScreenshotHelper.getScreenShotsForCurrentTest();
                 for (Map.Entry<String, Object> screenShot : screenShots.entrySet()) {
-                    scenario.write(screenShot.getKey());
-                    scenario.embed((byte[]) screenShot.getValue(), "image/png");
+                    scenario.attach((byte[]) screenShot.getValue(), "image/png", screenShot.getKey());
                 }
 
                 ScreenshotHelper.tidyUpAfterTestRun();
 
                 if (scenario.isFailed()) {
-                    scenario.write(getWebDriver().getCurrentUrl());
                     byte[] screenShot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
-                    scenario.embed(screenShot, "image/png");
+                    scenario.attach(screenShot, "image/png", getWebDriver().getCurrentUrl());
                 }
 
             } catch (WebDriverException | ClassCastException wde) {

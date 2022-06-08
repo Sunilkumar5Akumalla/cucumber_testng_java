@@ -4,7 +4,7 @@ package com.gk.test.step_definitions.gui.register;
 import com.gk.test.enums.PermittedCharacters;
 import com.gk.test.framework.helpers.utils.RandomGenerator;
 import com.gk.test.page_objects.gui.NewRegistrationPage;
-import cucumber.api.java.en.When;
+import io.cucumber.java.en.When;
 import lombok.Getter;
 
 import static org.assertj.core.api.Assertions.assertThat;

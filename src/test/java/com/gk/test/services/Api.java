@@ -3,7 +3,7 @@ package com.gk.test.services;
 
 import com.gk.test.framework.helpers.ApiHelper;
 import com.gk.test.models.api.ItemModel;
-import com.jayway.restassured.response.Response;
+import io.restassured.response.Response;
 
 import java.util.List;
 

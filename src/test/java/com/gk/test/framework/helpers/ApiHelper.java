@@ -3,10 +3,10 @@ package com.gk.test.framework.helpers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.specification.RequestSpecification;
+import io.restassured.RestAssured;
+import io.restassured.specification.RequestSpecification;
 
-import static com.jayway.restassured.RestAssured.given;
+import static io.restassured.RestAssured.given;
 
 /**
  * Every Api Step definition class should extend this class

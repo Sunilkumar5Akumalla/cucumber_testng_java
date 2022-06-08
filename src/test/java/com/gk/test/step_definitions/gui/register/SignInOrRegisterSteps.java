@@ -2,9 +2,9 @@ package com.gk.test.step_definitions.gui.register;
 
 import com.gk.test.framework.helpers.Props;
 import com.gk.test.page_objects.gui.SignInOrRegisterPage;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
