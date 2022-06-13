@@ -171,7 +171,7 @@ public abstract class WebDriverHelper {
         DesiredCapabilities capabilities = getChromeDesiredCapabilities();
 
         if (SELENIUM_HOST == null || SELENIUM_HOST.isEmpty()) {
-            WebDriverManager.chromedriver().capabilities(capabilities).setup();
+            WebDriverManager.chromedriver().setup();
             REAL_DRIVER = new ChromeDriver();
         } else {
             try {
